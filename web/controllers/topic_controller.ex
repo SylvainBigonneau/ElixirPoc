@@ -13,6 +13,11 @@ defmodule Discuss.TopicController do
         render conn, "index.html", topics: topics
     end
 
+    def show(conn, %{"id" => topic_id}) do
+        topic = Repo.get!(Topic, topic_id)
+        render conn, "show.html", topic: topic
+    end
+
     def new(conn, _params) do
         changeset = Topic.changeset(%Topic{}, %{})
 
@@ -32,7 +37,7 @@ defmodule Discuss.TopicController do
             {:error, changeset} ->
                 conn
                 |> put_flash(:error, "Error!")
-                |> render "new.html", changeset: changeset
+                |> render("new.html", changeset: changeset)
         end
     end
 
@@ -55,7 +60,7 @@ defmodule Discuss.TopicController do
             {:error, changeset} ->
                 conn
                 |> put_flash(:error, "Error!")
-                |> render "edit.html", changeset: changeset, topic: old_topic
+                |> render("edit.html", changeset: changeset, topic: old_topic)
         end
     end
 
